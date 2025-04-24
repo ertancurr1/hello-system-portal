@@ -2,10 +2,9 @@ import React from "react";
 import { View, Text, StyleSheet, Switch } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useTheme } from "../src/context/ThemeContext";
-import { SIZES, FONTS } from "../src/theme/theme";
-import InputField from "../src/components/ui/InputField";
-import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../src/context/AuthContext";
+import { FONTS, SIZES } from "../src/theme/theme";
+import Button from "../src/components/ui/Button"; // Make sure this import is correct
 
 export default function HomeScreen() {
   const { isDarkMode, toggleTheme, getTheme } = useTheme();

@@ -215,7 +215,11 @@ export default function DashboardScreen() {
             <>
               <InfoCard
                 title="Wi-Fi Credentials"
-                value={credentials?.wifi || "student_wifi / campus2023"}
+                value={
+                  credentials?.wifi
+                    ? `${credentials.wifi.username} / ${credentials.wifi.password}`
+                    : "Loading..."
+                }
                 icon="wifi"
                 copyable
                 onCopy={handleCopyToClipboard}
