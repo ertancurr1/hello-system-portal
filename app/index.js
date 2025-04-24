@@ -5,20 +5,26 @@ import { useTheme } from "../src/context/ThemeContext";
 import { SIZES, FONTS } from "../src/theme/theme";
 import InputField from "../src/components/ui/InputField";
 import { Ionicons } from "@expo/vector-icons";
+import { useAuth } from "../src/context/AuthContext";
 
 export default function HomeScreen() {
   const { isDarkMode, toggleTheme, getTheme } = useTheme();
   const { colors } = getTheme();
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const { user, logout } = useAuth();
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar style={isDarkMode ? "light" : "dark"} />
 
       <Text style={[styles.title, { color: colors.primary }]}>
-        Hello! System Test
+        Hello! System Dashboard
       </Text>
+
+      {user && (
+        <Text style={[styles.welcomeText, { color: colors.text }]}>
+          Welcome, {user.name || "Student"}!
+        </Text>
+      )}
 
       <View style={styles.themeToggle}>
         <Text style={[styles.toggleText, { color: colors.text }]}>
@@ -32,31 +38,12 @@ export default function HomeScreen() {
         />
       </View>
 
-      <View style={styles.form}>
-        <InputField
-          label="Email"
-          value={email}
-          onChangeText={setEmail}
-          placeholder="Enter your email"
-          keyboardType="email-address"
-          icon={<Ionicons name="mail" />}
-          required
-        />
-
-        <InputField
-          label="Password"
-          value={password}
-          onChangeText={setPassword}
-          placeholder="Enter your password"
-          secureTextEntry
-          icon={<Ionicons name="lock-closed" />}
-          required
-        />
-      </View>
-
-      <Text style={[styles.info, { color: colors.text }]}>
-        This is a test screen for the first phase. Our theming works!
-      </Text>
+      <Button
+        title="Logout"
+        onPress={logout}
+        variant="outline"
+        style={styles.logoutButton}
+      />
     </View>
   );
 }
@@ -71,6 +58,11 @@ const styles = StyleSheet.create({
   title: {
     ...FONTS.bold,
     fontSize: 28,
+    marginBottom: 10,
+  },
+  welcomeText: {
+    ...FONTS.medium,
+    fontSize: SIZES.large,
     marginBottom: 30,
   },
   themeToggle: {
@@ -82,13 +74,8 @@ const styles = StyleSheet.create({
     ...FONTS.medium,
     marginRight: 10,
   },
-  form: {
-    width: "100%",
-    maxWidth: 400,
-    marginBottom: 30,
-  },
-  info: {
-    ...FONTS.regular,
-    textAlign: "center",
+  logoutButton: {
+    width: 200,
+    marginTop: 20,
   },
 });
